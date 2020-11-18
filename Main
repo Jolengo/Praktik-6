@@ -1,0 +1,54 @@
+package com.company;
+
+import java.util.Scanner;
+
+public class Main {
+
+    public static void Merge(Student[] A, int first, int last) //слияние 2-х отсортированных массивов
+    {
+        int middle, start, fin, j;
+        Student[] mas = new Student[last-first+1];
+        middle = (first + last) / 2; //вычисление среднего элемента
+        start = first; //начало левой части
+        fin = middle + 1; //начало правой части
+        for (j = first; j <= last; j++) //выполнять от начала до конца
+            if ((start <= middle) && ((fin > last) || (A[start].compare(A[fin])==">"))) {
+                mas[j-first] = A[start];
+                start++;
+            } else {
+                mas[j-first] = A[fin];
+                fin++;
+            }
+        for (j=first;j<=last;++j) {
+            A[j]=mas[j-first];
+        }
+    }
+    
+    public static void MergeSort(Student[] A, int first, int last)
+    {
+        {
+            if (first < last)
+            {
+                MergeSort(A, first, (first + last) / 2); //сортировка левой части
+                MergeSort(A, (first + last) / 2 + 1, last); //сортировка правой части
+                Merge(A, first, last); //слияние двух частей
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+        System.out.print("Введите количество студентов: ");
+        int n;
+        Scanner in = new Scanner(System.in);
+        n=in.nextInt();
+        Student[] arr = new Student[n];
+        for (int i=0; i<n; ++i)
+        {
+            System.out.print("Введите информацию о студенте №"+(i+1)+":\n");
+            arr[i] = new Student();
+        }
+        MergeSort(arr,0,arr.length-1);
+        for (int i=0; i<n; ++i)
+            System.out.println(arr[i].getName());
+    }
+}
